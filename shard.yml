@@ -6,4 +6,8 @@ authors:
 
 crystal: 0.35.1
 
+dependencies:
+  cable:
+    github: cable-cr/cable
+
 license: MIT
