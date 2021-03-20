@@ -69,7 +69,9 @@ module Turbo
   end
 
   def self.turbo_stream_request?(context : HTTP::Server::Context) : Bool
-    if accept = context.request.headers["Accept"]?
+    if context.request.headers["Turbo-Frame"]?
+      true
+    elsif accept = context.request.headers["Accept"]?
       accept.includes? "text/vnd.turbo-stream.html"
     else
       false
