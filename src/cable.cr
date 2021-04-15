@@ -1,4 +1,4 @@
-require "turbo"
+require "./turbo"
 require "cable"
 require "base64"
 require "openssl/hmac"
@@ -16,29 +16,28 @@ module Turbo
       end
     end
 
-    def self.broadcast_replace_to(stream_name : String, message : String)
-      broadcast_action "replace", to: stream_name, message: message
+    def self.broadcast_replace_to(stream_name : String, target : String, message : String)
+      broadcast_action "replace", stream_name: stream_name, target: target, message: message
     end
 
-    def self.broadcast_update_to(stream_name : String, message : String)
-      broadcast_action "update", to: stream_name, message: message
+    def self.broadcast_update_to(stream_name : String, target : String, message : String)
+      broadcast_action "update", stream_name: stream_name, target: target, message: message
     end
 
-    def self.broadcast_append_to(stream_name : String, message : String)
-      broadcast_action "append", to: stream_name, message: message
+    def self.broadcast_append_to(stream_name : String, target : String, message : String)
+      broadcast_action "append", stream_name: stream_name, target: target, message: message
     end
 
-    def self.broadcast_prepend_to(stream_name : String, message : String)
-      broadcast_action "prepend", to: stream_name, message: message
+    def self.broadcast_prepend_to(stream_name : String, target : String, message : String)
+      broadcast_action "prepend", stream_name: stream_name, target: target, message: message
     end
 
-    def self.broadcast_remove_to(stream_name : String)
-      broadcast_action "remove", to: stream_name, message: ""
+    def self.broadcast_remove_to(stream_name : String, target : String)
+      broadcast_action "remove", stream_name: stream_name, target: target, message: ""
     end
 
-    def self.broadcast_action(action : String, to stream_name : String, message : String)
-      broadcast_to stream_name, 
-        "<turbo-stream action=#{action.inspect} target=#{stream_name.inspect}><template>#{message}</template></turbo-stream>"
+    def self.broadcast_action(action : String, stream_name : String, target : String, message : String)
+      broadcast_to stream_name, "<turbo-stream action=#{action.inspect} target=#{target.inspect}><template>#{message}</template></turbo-stream>"
     end
 
     def self.signed_stream_name(streamables : Enumerable(String)) : String
